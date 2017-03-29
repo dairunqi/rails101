@@ -1,16 +1,38 @@
 class GroupsController < ApplicationController
-
-  # 略 ...
+  def index
+    @groups = Group.all
+  end
 
   def show
-    @group = Group.find(params[:id])
+    @group = Group .find(params[:id])
   end
 
   def edit
     @group = Group.find(params[:id])
   end
 
-  # 略 ...
+  def new
+    @group = Group.new
+  end
 
+  def create
+    @group = Group.new(group_params)
+    @group.save
 
+    redirect_to groups_path
+  end
+
+  def update
+    @group = Group.find(params[:id])
+
+    @group.update(groups_params)
+
+    redirect_to groups_path, notice:"Update Success"
+  end
+
+  private
+
+  def groups_params
+      params.require(:group).permit(:title, :description)
+  end
 end
