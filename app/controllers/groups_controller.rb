@@ -16,10 +16,13 @@ class GroupsController < ApplicationController
   end
 
   def create
-    @group = Group.new(group_params)
-    @group.save
+    @group = Group.new(groups_params)
 
-    redirect_to groups_path
+    if @group.save
+      redirect_to groups_path
+    else
+      render :new
+    end
   end
 
   def update
@@ -40,6 +43,6 @@ class GroupsController < ApplicationController
   private
 
   def groups_params
-       arams.require(:group).permit(:title, :description)
+       params.require(:group).permit(:title, :description)
   end
 end
